@@ -2,36 +2,44 @@
 
 #include "ImGuiDrawView.h"
 #include "MenuLoad.h"
-#include "UserMenu.h"
-
-#include "../Font.h"
 
 #include "../ImGui/imgui.h"
 #include "../ImGui/imgui_internal.h"
 #include "../ImGui/imgui_impl_metal.h"
-#include "../Source/BasicHacks.h"
-
 #include "../utils/libtitanox/libtitanox/libtitanox.h"
-#include "../utils/libtitanox/static-inline-hook/sih.hpp"
-#include "../utils/libtitanox/mempatch/THPatchMem.h"
-#include "../utils/libtitanox/MemX/MemX.hpp"
-#include "../utils/libtitanox/fishhook/fishhook.h"
-#include "../utils/libtitanox/vm_funcs/vm.h"
-#include "../utils/libtitanox/MemX/VMTWrapper.h"
+
+#define NEON_AVAILABLE
+#include "../utils/Wizardry/mystic.hh"
+
+#if defined(KOMARU) //-DKOMARU
+#include "../utils/Komaru/KMem.h"
+#include "../utils/Komaru/KLog.hpp"
+#endif
+
+//engine-specifics
+#if defined(UNREAL) && defined(UNITY)
+    #error "[KOMARU]: cannot define both engines."
+#elif defined(UNREAL)
+    #include "../utils/Math/Unreal/Math.h"
+#elif defined(UNITY)
+    #include "../utils/Math/Unity/Math.h"
+#else
+    #pragma message("[KOMARU]: Not targeting unreal engine or unity, defaulting to common; specify -DUNITY or -DUNREAL Makefile _CCFLAGS.")
+    #include "../utils/Math/Common/Math.h"
+#endif //in Makefile _CCFLAGS specify -DUNITY or -DUNREAL
+
 
 #include <vector>
 #include <map>
 #include <unistd.h>
-#include <stdlib.h>
-#include <cstdint>
 #include <string.h>
 #include <vector>
 #include <functional>
 #include <iostream>
 #include <queue>
+#include <thread>
 #include <pthread/pthread.h>
 #include <substrate.h>
-#include <string>
 
 #import <Metal/Metal.h>
 #import <MetalKit/MetalKit.h>
@@ -65,20 +73,15 @@ struct GlobalVariables
     }
 
     ImFont* Font;
-    ImVec2 MenuSize         = ImVec2(0, 0);
-    ImVec2 MenuOrigin       = ImVec2(0, 0);
 
-    ImVec2 ConsoleOrigin    = ImVec2(0, 0);
-    ImVec2 ConsoleSize      = ImVec2(0, 0);
-
+    ImVec2 MenuSize   = ImVec2(0, 0);
+    ImVec2 MenuOrigin = ImVec2(0, 0);
 
     bool StreamerMode = false;
     bool MoveMenu = false;
 
-    bool ESPEnabled = false;
-    bool running = false;
-    bool console = false;
-
+    bool testMenu = false;
+    uintptr_t Base = 0;
 };
 
 static GlobalVariables& KTempVars = GlobalVariables::GetInstance();

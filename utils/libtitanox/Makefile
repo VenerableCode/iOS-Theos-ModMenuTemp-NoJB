@@ -1,15 +1,15 @@
-TARGET := iphone:clang:13.7
+TARGET := iphone:clang:16.5
 ARCHS = arm64
 DEBUG = 0
 FINALPACKAGE = 1
 FOR_RELEASE = 1
 
 # Change to your own $THEOS path, or remove if env is already set. I had a shell issue :/
-THEOS = /home/rage/theos
+THEOS = /home/user/theos
 
-SYSROOT = $(THEOS)/sdks/iPhoneOS13.7.sdk
+SYSROOT = $(THEOS)/sdks/iPhoneOS16.5.sdk
 # AGAIN i had fucking SDK issues...
-# had to downgrade to 13.7
+# had to downgrade to 16.5
 include $(THEOS)/makefiles/common.mk
 
 LIBRARY_NAME = libtitanox
@@ -43,13 +43,3 @@ $(LIBRARY_NAME)_INSTALL_PATH = @executable_path
 $(LIBRARY_NAME)_FRAMEWORKS = Foundation CoreFoundation
 
 include $(THEOS_MAKE_PATH)/library.mk
-
-# Remove all this if you want. This basically just gives me my dylib extracted from the .deb.
-after-package::
-	@echo -e "\033[0;33m==> Copying libtitanox.dylib to packages directory...\033[0m"
-	@timeout 2 cp /home/rage/theos/lib/libtitanox.dylib ./packages/
-	@echo -e "\033[0;32m==> Copy complete.\033[0m"
-
-	@echo -e "\033[0;33m==> Removing .deb file from packages...\033[0m"
-	@rm -f packages/*.deb
-	@echo -e "\033[0;32m==> .deb file removed.\033[0m"

@@ -3,3 +3,4 @@
 .theos/
 .DS_Store
 *.zip
+.vscode/

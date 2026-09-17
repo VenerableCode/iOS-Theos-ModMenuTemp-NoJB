@@ -1,21 +1,22 @@
 #pragma once
 
-class BasicHacks {
+class BasicHacks
+{
+    
 public:
     BasicHacks(const BasicHacks&) = delete;
 
-    static BasicHacks& GetInstance() {
-        static BasicHacks Instance;
-        return Instance;
+    static BasicHacks& GetInstance()
+    {
+        static BasicHacks instance;
+        return instance;
     }
 
-    static void* HacksThread(void* arg);
-
+    static void HacksThread();
     void Initialize();
-    void UpdateCheats();
 
 private:
     BasicHacks() = default;
 };
 
-static BasicHacks& BasicCheats = BasicHacks::GetInstance();
+static BasicHacks& R_BasicCheats = BasicHacks::GetInstance(); //we init in ImGuiDrawVIew.xm

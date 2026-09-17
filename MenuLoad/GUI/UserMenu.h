@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 
 class UserMenu {
 public:
@@ -10,14 +9,16 @@ public:
         return Instance;
     }
 
+    //menus
     void DrawMenu();
     void RenderingMenu();
+    void testmenu();
+
+    //other
     void Initialize();
-    void ShowOutputTextbox();
-    void AppendToOutput(const std::string& text);
-    void ConsoleMenu();
+
 private:
-    UserMenu() { }
+    UserMenu() = default;
 };
 
 static UserMenu& Menu = UserMenu::GetInstance();

@@ -31,13 +31,16 @@ static NSString *baseimage = @"/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUSExMWF
         return NO;
     }
 
-    CGRect mainArea = CGRectMake(KTempVars.MenuOrigin.x, KTempVars.MenuOrigin.y, KTempVars.MenuSize.x, KTempVars.MenuSize.y);
-    CGRect consoleArea = CGRectMake(KTempVars.ConsoleOrigin.x, KTempVars.ConsoleOrigin.y, KTempVars.ConsoleSize.x, KTempVars.ConsoleSize.y);
+    if (CGRectContainsPoint(VisibleMenuButton.frame, point)) {
+        return NO;
+    }
 
-    if (CGRectContainsPoint(mainArea, point) || CGRectContainsPoint(consoleArea, point)) {
+    CGRect touchableArea = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    //CGRect touchableArea = CGRectMake(KTempVars.MenuOrigin.x, KTempVars.MenuOrigin.y, KTempVars.MenuSize.x, KTempVars.MenuSize.y); 
+
+    if (CGRectContainsPoint(touchableArea, point)) {
         return [super pointInside:point withEvent:event];
     }
-    
     return NO;
 }
 
@@ -61,8 +64,6 @@ static NSString *baseimage = @"/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEhUSExMWF
 
 @implementation MenuLoad
 
-bool isOpened = false;
-
 - (ImGuiDrawView*) GetImGuiView {
     return _vna;
 }
@@ -78,6 +79,7 @@ bool isOpened = false;
 -(void)initTapGes {
     UIView* mainView = [UIApplication sharedApplication].windows[0].rootViewController.view;
 
+    //STREAMER MODE
     hideRecordTextfield = [[UITextField alloc] init];
     hideRecordView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height)];
     [hideRecordView setBackgroundColor:[UIColor clearColor]];

@@ -1,19 +1,27 @@
+#include "BasicHacks.h"
 #include "../MenuLoad/Includes.h"
 
+bool running = true;
 
-void* BasicHacks::HacksThread(void* arg)
+void BasicHacks::HacksThread()
 {
+    while (running)
+    {
+        KTempVars.Base = KMEM::scanner::FindFirstBase();
 
-    while(KTempVars.running)
-    {   
-        usleep(100);
-    } 
+        if(!KTempVars.Base)
+        {
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            continue;
+        }
 
-    return NULL; 
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+    }
 }
+
+
 
 void BasicHacks::Initialize()
 {
-    pthread_t BasicHacksThread;
-    pthread_create(&BasicHacksThread, nullptr, HacksThread, nullptr);
+    std::thread(HacksThread).detach();
 }
