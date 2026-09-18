@@ -21,6 +21,7 @@
     #error "[KOMARU]: cannot define both engines."
 #elif defined(UNREAL)
     #include "../utils/Math/Unreal/Math.h"
+    #include "../Source/Engines/UE4/Validity.h"
 #elif defined(UNITY)
     #include "../utils/Math/Unity/Math.h"
 #else

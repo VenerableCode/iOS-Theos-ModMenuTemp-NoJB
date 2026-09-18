@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace UE4
+namespace UE4Validity
 {
     constexpr uint32_t RF_PendingKill     = 0x00008000;
     constexpr uint32_t RF_BeginDestroyed  = 0x00010000;
@@ -19,7 +19,7 @@ namespace UE4
     inline bool IsValidUObject(uintptr_t addr)
     {
         if (!addr) return false;
-        
+
         uint32_t flags = *reinterpret_cast<uint32_t*>(addr + 0x08);
         return !(flags & (RF_PendingKill | RF_BeginDestroyed | RF_FinishDestroyed));
     }
