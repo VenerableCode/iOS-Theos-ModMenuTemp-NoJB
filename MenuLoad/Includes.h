@@ -24,6 +24,7 @@
     #include "../Source/Engines/UE4/Validity.h"
 #elif defined(UNITY)
     #include "../utils/Math/Unity/Math.h"
+    #include "../Source/Engines/Unity/il2cpp.h"
 #else
     #pragma message("[KOMARU]: Not targeting unreal engine or unity, defaulting to common; specify -DUNITY or -DUNREAL Makefile _CCFLAGS.")
     #include "../utils/Math/Common/Math.h"

@@ -61,7 +61,8 @@ $(TWEAK_NAME)_FILES = \
     utils/libtitanox/MemX/VMTWrapper.mm \
     utils/libtitanox/static-inline-hook/sih.mm \
     utils/libtitanox/utils/utils.mm \
-    utils/libtitanox/vm_funcs/vm.mm
+    utils/libtitanox/vm_funcs/vm.mm \
+    Source/Engines/Unity/il2cpp.mm
 
 $(TWEAK_NAME)_CFLAGS += \
     -I$(THEOS_PROJECT_DIR)/utils/libtitanox \
